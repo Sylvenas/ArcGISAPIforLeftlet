@@ -43,52 +43,16 @@
     <div id="info-pane" class="leaflet-bar">Hover to inspect</div>
 
     <script type='text/javascript'>
-  var map = L.map('map').setView([45.5275, -122.6717], 14);
+  var map = L.map('map').setView([28.38, 121.38], 14);
 
-  //L.esri.basemapLayer('Streets').addTo(map);
+  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
 
-  var bikePaths = L.esri.featureLayer({
-    url: '//services.arcgis.com/uCXeTVveQzP4IIcx/ArcGIS/rest/services/Bike_Routes/FeatureServer/0',
-    style: function (feature) {
-      var c,o = 0.75;
-      switch (feature.properties.BIKEMODE) {
-        case 'Low traffic through street':
-          c = '#007D7D';
-          break;
-        case 'Bike boulevard':
-          c = '#00FF3C';
-          break;
-        case 'Caution area':
-          c = '#FF0000';
-          break;
-        case 'Local multi-use path':
-          c = '#00BEFF';
-          break;
-        case 'Regional multi-use path':
-          c = '#b1a9d0';
-          break;
-        case 'Moderate traffic through street':
-          c = '#FFEB00';
-          break;
-        case 'Planned multi-use path':
-          c = '#000000';
-          break;
-        case 'Bike lane':
-          c = '#328000';
-          o = '0.70';
-          break;
-        case 'High traffic through street':
-          c = '#FFA500';
-          break;
-        case 'Planned bike lane':
-          c = '#000000';
-          o = '1.0';
-          break;
-        default:
-          c = '#C0C0C0';
-      }
-      return {color: c, opacity: o, weight: 5};
-    }
+
+  var bikePaths = L.esri.dynamicMapLayer({
+      url: 'http://localhost:6080/arcgis/rest/services/WL/qq/MapServer'
+    
   }).addTo(map);
 
   bikePaths.on('mouseout', function(e){
